@@ -1,13 +1,12 @@
 import { Injectable } from "@angular/core";
 import { Site } from "./site.model";
 import { RestDataSource } from "./rest.datasource";
-import { StaticDataSource } from "./static.datasource";
 
 @Injectable()
 export class SiteRepository {
   private sites: Site[] = [];
 
-  constructor(private dataSource: RestDataSource, private staticDataSource: StaticDataSource) {
+  constructor(private dataSource: RestDataSource) {
     dataSource.getSites().subscribe(data => {
       this.sites = data;
     });

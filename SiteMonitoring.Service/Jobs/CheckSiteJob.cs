@@ -36,12 +36,12 @@ namespace SiteMonitoring.Service.Jobs
                 using (var response = (HttpWebResponse)request.GetResponse())
                 {
                     site.IsAvailable = response.StatusCode == HttpStatusCode.OK;
+                    site.LastUpdatedDate = DateTime.Now;
 
                     if (isSendUpdate)
                     {
                         SiteService.UpdateSiteStatus(site);
                     }
-
                     return site.IsAvailable;
                 }
             }

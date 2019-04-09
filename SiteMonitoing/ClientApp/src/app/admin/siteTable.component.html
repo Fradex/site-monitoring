@@ -6,6 +6,7 @@
     <th>Описание</th>
     <th>Временной интервал</th>
     <th>Доступен ли сайт</th>
+    <th>Дата последнего обновления</th>
     <th></th>
     <th></th>
   </tr>
@@ -17,6 +18,7 @@
     <td>{{s.description}}</td>
     <td>{{s.checkedInterval}}</td>
     <td>{{s.isAvailable ? "Да" : "Нет"}}</td>
+    <td>{{s.lastUpdatedDate | date:'dd.MM.yyyy HH:mm'}}</td>
     <td>
       <button class="btn btn-sm btn-warning"
               [routerLink]="['/admin/main/site/edit', s.id]">

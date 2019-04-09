@@ -38,7 +38,8 @@ namespace SiteMonitoring.Repositories
                 Url = x.Site.Url,
                 Description = x.Site.Description,
                 CheckedInterval = x.CheckedInterval,
-                IsAvailable = x.IsAvailable
+                IsAvailable = x.IsAvailable,
+                LastUpdatedDate = x.LastUpdatedDate
             }).ToListAsync();
         }
 
@@ -59,7 +60,8 @@ namespace SiteMonitoring.Repositories
                     Url = x.Site.Url,
                     Description = x.Site.Description,
                     CheckedInterval = x.CheckedInterval,
-                    IsAvailable = x.IsAvailable
+                    IsAvailable = x.IsAvailable,
+                    LastUpdatedDate = x.LastUpdatedDate
                 }).FirstOrDefaultAsync();
         }
 
@@ -110,6 +112,7 @@ namespace SiteMonitoring.Repositories
                 {
                     model = await CheckSiteService.AddOrUpdateJob(model);
                     siteStatusEntry.Entity.JobId = model.JobId;
+                    siteStatusEntry.Entity.LastUpdatedDate = model.LastUpdatedDate;
                     siteStatusEntry.Entity.IsAvailable = model.IsAvailable;
                 }
                 catch (Exception e)
@@ -175,6 +178,7 @@ namespace SiteMonitoring.Repositories
 
                 siteStatusEntry.Entity.IsAvailable = model.IsAvailable;
                 siteStatusEntry.Entity.JobId = model.JobId;
+                siteStatusEntry.Entity.LastUpdatedDate = model.LastUpdatedDate;
                 siteStatusEntry.State = EntityState.Modified;
 
                 await Context.SaveChangesAsync();
