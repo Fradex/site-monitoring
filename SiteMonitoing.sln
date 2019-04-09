@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.28729.10
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.572
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SiteMonitoring", "SiteMonitoing\SiteMonitoring.csproj", "{D6C767D7-7991-4B83-8B45-A5EA97DB0CF8}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SiteMonitoring.Model", "SiteMonitoring.Model\SiteMonitoring.Model.csproj", "{68A71F99-BCC1-4D52-91D4-0F084FAC6FEB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SiteMonitoring.Service", "SiteMonitoring.Service\SiteMonitoring.Service.csproj", "{66FB7002-D898-4068-9651-1B507C8EF9CD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{68A71F99-BCC1-4D52-91D4-0F084FAC6FEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{68A71F99-BCC1-4D52-91D4-0F084FAC6FEB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{68A71F99-BCC1-4D52-91D4-0F084FAC6FEB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{66FB7002-D898-4068-9651-1B507C8EF9CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{66FB7002-D898-4068-9651-1B507C8EF9CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{66FB7002-D898-4068-9651-1B507C8EF9CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{66FB7002-D898-4068-9651-1B507C8EF9CD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

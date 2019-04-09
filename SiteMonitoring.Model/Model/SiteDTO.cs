@@ -16,5 +16,20 @@ namespace SiteMonitoring.Model.Model
         /// Сайт доступен
         /// </summary>
         public bool IsAvailable { get; set; }
+
+        /// <summary>
+        /// Идентификатор задачи
+        /// </summary>
+        public string JobId { get; set; }
+
+        public Site ToSite()
+        {
+            return new Site
+            {
+                Description = this.Description,
+                Name = this.Name,
+                Url = this.Url
+            };
+        }
     }
 }

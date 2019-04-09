@@ -1,6 +1,6 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { FormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { RouterModule } from "@angular/router";
 import { AuthComponent } from "./auth.component";
 import { AdminComponent } from "./admin.component";
@@ -24,7 +24,7 @@ let routing = RouterModule.forChild([
 ]);
 
 @NgModule({
-  imports: [ModelModule, CommonModule, FormsModule, routing],
+  imports: [ModelModule, CommonModule, FormsModule, ReactiveFormsModule, routing],
   providers: [AuthGuard],
   declarations: [AuthComponent, AdminComponent, SiteTableComponent, SiteEditorComponent]
 })

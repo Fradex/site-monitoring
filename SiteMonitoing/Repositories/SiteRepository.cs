@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.Extensions.Logging;
 using SiteMonitoring.Context;
 using SiteMonitoring.Model.Model;
-using SiteMonitoring.Model.Model.Requests;
 using SiteMonitoring.Repositories.Interfaces;
+using SiteMonitoring.Services.Interfaces;
 
 namespace SiteMonitoring.Repositories
 {
@@ -18,11 +19,13 @@ namespace SiteMonitoring.Repositories
     {
         protected ILogger<SiteRepository> Logger;
         protected SiteContext Context;
+        protected ICheckSiteService CheckSiteService;
 
-        public SiteRepository(ILogger<SiteRepository> logger, SiteContext context)
+        public SiteRepository(ILogger<SiteRepository> logger, SiteContext context, ICheckSiteService checkSiteService)
         {
             Logger = logger;
             Context = context;
+            this.CheckSiteService = checkSiteService;
         }
 
         /// <inheritdoc/>
@@ -61,12 +64,14 @@ namespace SiteMonitoring.Repositories
         }
 
         /// <inheritdoc />
-        public async Task SaveAsync(SiteRequestModel model)
+        public async Task<SiteDTO> SaveAsync(SiteDTO model)
         {
             if (model == null)
             {
                 throw new ArgumentException("Передана пустая объектная модель.");
             }
+
+            EntityEntry<SiteStatus> siteStatusEntry = null;
 
             var site = await Context.Sites.Select(x => x)
                 .FirstOrDefaultAsync(x => x.Id == model.Id);
@@ -78,8 +83,8 @@ namespace SiteMonitoring.Repositories
                 siteEntry.State = EntityState.Modified;
 
                 var siteStatus = await Context.SiteStatuses.Select(x => x)
-                    .FirstOrDefaultAsync(x => x.Site.Id == model.Id);
-                var siteStatusEntry = Context.Entry(siteStatus);
+                     .FirstOrDefaultAsync(x => x.Site.Id == model.Id);
+                siteStatusEntry = Context.Entry(siteStatus);
                 siteStatusEntry.Entity.CheckedInterval = model.CheckedInterval;
                 siteStatusEntry.State = EntityState.Modified;
             }
@@ -94,12 +99,86 @@ namespace SiteMonitoring.Repositories
                         Site = siteEntry.Entity,
                         CheckedInterval = model.CheckedInterval == 0 ? 5 : model.CheckedInterval
                     };
-                    Context.SiteStatuses.Add(siteStatus);
+                    siteStatusEntry = await Context.SiteStatuses.AddAsync(siteStatus);
                 }
                 model.Id = siteEntry.Entity.Id;
             }
 
+            if (siteStatusEntry != null)
+            {
+                try
+                {
+                    model = await CheckSiteService.AddOrUpdateJob(model);
+                    siteStatusEntry.Entity.JobId = model.JobId;
+                    siteStatusEntry.Entity.IsAvailable = model.IsAvailable;
+                }
+                catch (Exception e)
+                {
+                    this.Logger.LogError("Сервис не доступен.", e);
+                }
+            }
+
             await Context.SaveChangesAsync();
+
+            return model;
+        }
+
+        /// <inheritdoc />
+        public async Task DeleteAsync(Guid id)
+        {
+            if (id.Equals(Guid.Empty))
+            {
+                throw new ArgumentException("Не передан идентификатор объекта.");
+            }
+
+            var site = await Context.Sites.Select(x => x)
+                .FirstOrDefaultAsync(x => x.Id == id);
+            var siteStatus = await Context.SiteStatuses.Select(x => x)
+                .FirstOrDefaultAsync(x => x.Site.Id == id);
+
+            if (site != null && siteStatus != null)
+            {
+                this.Context.SiteStatuses.Remove(siteStatus);
+                this.Context.Sites.Remove(site);
+
+                if (siteStatus.JobId != null)
+                {
+                    //Удаляем джобу с сервиса
+                    await this.CheckSiteService.DeleteJob(siteStatus.JobId);
+                }
+            }
+            else
+            {
+                this.Logger.LogError($"Объект не найден, либо в БД некорректные записи. ИД объекта {id}.");
+            }
+
+            await Context.SaveChangesAsync();
+        }
+
+        /// <inheritdoc />
+        public async Task UpdateStatus(SiteDTO model)
+        {
+            if (model == null)
+            {
+                throw new ArgumentException("Передана пустая объектная модель.");
+            }
+
+            var site = await Context.Sites.Select(x => x)
+                .FirstOrDefaultAsync(x => x.Id == model.Id);
+
+            if (site != null)
+            {
+                var siteStatus = await Context.SiteStatuses.Select(x => x)
+                    .FirstOrDefaultAsync(x => x.Site.Id == model.Id);
+
+                var siteStatusEntry = Context.Entry(siteStatus);
+
+                siteStatusEntry.Entity.IsAvailable = model.IsAvailable;
+                siteStatusEntry.Entity.JobId = model.JobId;
+                siteStatusEntry.State = EntityState.Modified;
+
+                await Context.SaveChangesAsync();
+            }
         }
     }
 }

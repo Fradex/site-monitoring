@@ -28,5 +28,10 @@ namespace SiteMonitoring.Model.Model
         /// Сайт доступен
         /// </summary>
         public bool IsAvailable { get; set; } = false;
+
+        /// <summary>
+        /// Идентификатор задачи
+        /// </summary>
+        public string JobId { get; set; }
     }
 }

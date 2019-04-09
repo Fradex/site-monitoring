@@ -1,6 +1,6 @@
 import { Component } from "@angular/core";
 import { Router, ActivatedRoute } from "@angular/router";
-import { NgForm } from "@angular/forms";
+import { NgForm, FormControl, Validators } from "@angular/forms";
 import { Site } from "../model/site.model";
 import { SiteRepository } from "../model/site.repository";
 
@@ -11,6 +11,7 @@ import { SiteRepository } from "../model/site.repository";
 export class SiteEditorComponent {
   editing: boolean = false;
   site: Site = new Site();
+  checkedIntervalControl: FormControl;
 
   constructor(private repository: SiteRepository,
     private router: Router,
@@ -24,6 +25,13 @@ export class SiteEditorComponent {
   }
 
   save(form: NgForm) {
+    var checkedInterval = form.controls["checkedInterval"];
+
+    if (checkedInterval.value <= 0) {
+
+      return;
+    }
+
     this.repository.saveItem(this.site);
     this.router.navigateByUrl("/admin/main/site");
   }

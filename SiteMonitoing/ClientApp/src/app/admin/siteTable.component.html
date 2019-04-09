@@ -16,7 +16,7 @@
     <td>{{s.url}}</td>
     <td>{{s.description}}</td>
     <td>{{s.checkedInterval}}</td>
-    <td>{{s.isAvailable}}</td>
+    <td>{{s.isAvailable ? "Да" : "Нет"}}</td>
     <td>
       <button class="btn btn-sm btn-warning"
               [routerLink]="['/admin/main/site/edit', s.id]">

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using SiteMonitoring.Model.Model;
-using SiteMonitoring.Model.Model.Requests;
 
 namespace SiteMonitoring.Repositories.Interfaces
 {
@@ -26,6 +25,16 @@ namespace SiteMonitoring.Repositories.Interfaces
         /// </summary>
         /// <param name="model">Объектная модель сайта</param>
         /// <returns>таска</returns>
-        Task SaveAsync(SiteRequestModel model);
+        Task<SiteDTO> SaveAsync(SiteDTO model);
+
+        /// <summary>
+        /// Удалить объект сайт
+        /// </summary>
+        Task DeleteAsync(Guid id);
+
+        /// <summary>
+        /// Обновить статус объекта
+        /// </summary>
+        Task UpdateStatus(SiteDTO site);
     }
 }

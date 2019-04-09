@@ -27,16 +27,18 @@ export class SiteRepository {
         .subscribe(p => this.sites.push(p));
     } else {
       this.dataSource.updateSite(site)
-        .subscribe(p => {
+        .subscribe(obj => {
           this.sites.splice(this.sites.
-            findIndex(p => p.id == site.id), 1, site);
+            findIndex(p => p.id == site.id), 1, obj);
         });
     }
   }
 
   deleteItem(id: string) {
-    this.dataSource.deleteSite(id).subscribe(p => {
-      this.sites.splice(this.sites.findIndex(p => p.id == id), 1);
+    this.dataSource.deleteSite(id).subscribe(res => {
+      if (res) {
+        this.sites.splice(this.sites.findIndex(p => p.id == id), 1);
+      }
     });
   }
 }

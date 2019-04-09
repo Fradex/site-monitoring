@@ -28,7 +28,7 @@ export class RestDataSource {
         //    this.auth_token = r.success ? r.token : null;
         //    return r.success;
         //});
-      this.auth_token = "111";
+      //this.auth_token = "111";
       return Observable.of(true);
     }
 
@@ -46,14 +46,14 @@ export class RestDataSource {
           `api/Site/Save`, site, true) as Observable<Site>;
     }
 
-    deleteSite(id: string): Observable<Site> {
-        return this.sendRequest(RequestMethod.Delete,
-            `api/Site/${id}`, null, true) as Observable<Site>;
+    deleteSite(id: string): Observable<boolean> {
+      return this.sendRequest(RequestMethod.Delete,
+        `api/Site/${id}`, null, true) as Observable<boolean>;
     }
 
     private sendRequest(verb: RequestMethod,
             url: string, body?: Site, auth: boolean = false)
-                : Observable<Site | Site[]> {
+                : Observable<Site | Site[] | boolean> {
 
         let request = new Request({
             method: verb,
@@ -63,6 +63,12 @@ export class RestDataSource {
         if (auth && this.auth_token != null) {
             request.headers.set("Authorization", `Bearer<${this.auth_token}>`);
         }
-        return this.http.request(request).map(response => response.json());
+      return this.http.request(request).map(response => {
+        if (response && verb !== RequestMethod.Delete) {
+          return response.json();
+        } else {
+          return response.ok;
+        }
+      }, err => console.log(err));
     }
 }

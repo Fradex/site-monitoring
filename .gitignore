@@ -6,3 +6,5 @@
 /SiteMonitoring.Model/bin/Debug/netstandard2.0
 /SiteMonitoing.sln.DotSettings.user
 /.vs/SiteMonitoing
+/SiteMonitoring.Service/bin/Debug/netcoreapp2.1
+/SiteMonitoring.Service/obj

@@ -8,6 +8,8 @@ using Microsoft.Extensions.DependencyInjection;
 using SiteMonitoring.Context;
 using SiteMonitoring.Repositories;
 using SiteMonitoring.Repositories.Interfaces;
+using SiteMonitoring.Services;
+using SiteMonitoring.Services.Interfaces;
 
 namespace SiteMonitoring
 {
@@ -36,6 +38,7 @@ namespace SiteMonitoring
 
             services.AddSingleton(Configuration);
             services.AddTransient<ISiteRepository, SiteRepository>();
+            services.AddTransient<ICheckSiteService, CheckSiteService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
