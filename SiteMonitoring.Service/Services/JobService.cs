@@ -1,11 +1,9 @@
 ﻿using System;
 using Hangfire;
-using Hangfire.Common;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using SiteMonitoring.Model.Model;
-using SiteMonitoring.Service.Jobs;
 using SiteMonitoring.Service.Jobs.Interfaces;
 using SiteMonitoring.Service.Services.Interfaces;
 

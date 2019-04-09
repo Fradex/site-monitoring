@@ -5,31 +5,28 @@ import { Site } from "./site.model";
 import "rxjs/add/operator/map";
 import "rxjs/add/observable/of";
 
-const PROTOCOL = "http";
-const PORT = 3500;
-
 @Injectable()
 export class RestDataSource {
     baseUrl: string;
     auth_token: string;
 
   constructor(private http: Http, @Inject('BASE_URL') baseUrl: string) {
-       // this.baseUrl = `${PROTOCOL}://${location.hostname}:${PORT}/`;
        this.baseUrl = baseUrl;
     }
 
     authenticate(user: string, pass: string): Observable<boolean> {
-        //return this.http.request(new Request({
-        //    method: RequestMethod.Post,
-        //    url: this.baseUrl + "login",
-        //    body: { name: user, password: pass }
-        //})).map(response => {
-        //    let r = response.json();
-        //    this.auth_token = r.success ? r.token : null;
-        //    return r.success;
-        //});
-      //this.auth_token = "111";
-      return Observable.of(true);
+        return this.http.request(new Request({
+            method: RequestMethod.Post,
+          url: this.baseUrl + "api/Auth/Login",
+            body: { login: user, password: pass }
+        })).map(response => {
+          debugger;
+            let r = response.json();
+            this.auth_token = r.success ? r.token : null;
+            return r.success;
+        },
+          err => { return false; });
+     // return Observable.of(true);
     }
 
     getSites(): Observable<Site[]> {
@@ -61,7 +58,7 @@ export class RestDataSource {
             body: body
         });
         if (auth && this.auth_token != null) {
-            request.headers.set("Authorization", `Bearer<${this.auth_token}>`);
+            request.headers.set("Authorization", `Bearer ${this.auth_token}`);
         }
       return this.http.request(request).map(response => {
         if (response && verb !== RequestMethod.Delete) {

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SiteMonitoring.Model.Model;
@@ -22,6 +23,7 @@ namespace SiteMonitoring.Controllers
         /// <summary>
         /// Получить все записи
         /// </summary>
+        [AllowAnonymous]
         [HttpGet]
         public async Task<IEnumerable<SiteDTO>> GetAllAsync()
         {
@@ -31,6 +33,7 @@ namespace SiteMonitoring.Controllers
         /// <summary>
         /// Получить запись по ИД
         /// </summary>
+        [AllowAnonymous]
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<Site>> GetByIdAsync(Guid id)

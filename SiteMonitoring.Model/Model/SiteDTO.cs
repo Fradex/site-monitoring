@@ -22,6 +22,11 @@ namespace SiteMonitoring.Model.Model
         /// </summary>
         public string JobId { get; set; }
 
+        /// <summary>
+        /// Дата последнего обновления
+        /// </summary>
+        public DateTime LastUpdatedDate { get; set; }
+
         public Site ToSite()
         {
             return new Site

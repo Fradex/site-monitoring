@@ -33,5 +33,10 @@ namespace SiteMonitoring.Model.Model
         /// Идентификатор задачи
         /// </summary>
         public string JobId { get; set; }
+
+        /// <summary>
+        /// Дата последнего обновления
+        /// </summary>
+        public DateTime LastUpdatedDate { get; set; }
     }
 }

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using SiteMonitoring.Authentication;
 using SiteMonitoring.Context;
 using SiteMonitoring.Repositories;
 using SiteMonitoring.Repositories.Interfaces;
@@ -36,9 +37,13 @@ namespace SiteMonitoring
             services.AddDbContext<SiteContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DbContext")));
 
+            services.AddAuthentication(o => { o.DefaultScheme = "CustomAuthScheme"; })
+                .AddCustomAuthentication("CustomAuthScheme", "This is my authentication scheme", o => { });
+
             services.AddSingleton(Configuration);
             services.AddTransient<ISiteRepository, SiteRepository>();
             services.AddTransient<ICheckSiteService, CheckSiteService>();
+            services.AddTransient<IUserService, UserService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -57,6 +62,7 @@ namespace SiteMonitoring
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
+            app.UseAuthentication();
 
             app.UseMvc(routes =>
             {
