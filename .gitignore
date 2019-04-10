@@ -12,3 +12,5 @@
 /SiteMonitoring.Test/obj
 /SiteMonitoring.IntegrationTest/bin/Debug/netcoreapp2.1
 /SiteMonitoring.Test/bin/Debug
+/obj
+/bin/Debug

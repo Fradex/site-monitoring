@@ -1,0 +1,26 @@
+FROM mcr.microsoft.com/dotnet/core/aspnet:2.1-stretch-slim AS base
+WORKDIR /app
+EXPOSE 80
+EXPOSE 443
+
+FROM mcr.microsoft.com/dotnet/core/sdk:2.1-stretch AS build
+WORKDIR /src
+COPY ["SiteMonitoring.Service/SiteMonitoring.Service.csproj", "SiteMonitoring.Service/"]
+COPY ["SiteMonitoring.Model/SiteMonitoring.Model.csproj", "SiteMonitoring.Model/"]
+RUN dotnet restore "SiteMonitoring.Service/SiteMonitoring.Service.csproj"
+COPY . .
+WORKDIR "/src/SiteMonitoring.Service"
+RUN dotnet build "SiteMonitoring.Service.csproj" -c Release -o /app
+
+FROM build AS publish
+RUN dotnet publish "SiteMonitoring.Service.csproj" -c Release -o /app
+
+FROM base AS final
+WORKDIR /app
+COPY --from=publish /app .
+
+COPY missing-cert.crt /usr/share/ca-certificates
+RUN echo missing-cert.crt >> /etc/ca-certificates.conf
+RUN update-ca-certificates
+
+ENTRYPOINT ["dotnet", "SiteMonitoring.Service.dll"]
