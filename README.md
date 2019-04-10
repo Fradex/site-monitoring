@@ -26,6 +26,41 @@
 Для БД изпользован LocalDb.
 
 Взаимодействие компонентов:
-Веб приложение <-> Сервис мониторинга по http через rest api.
+Веб приложение <-> Сервис мониторинга по http/https (rest api).
 
+Настройка запуска приложения:
 
+Для решения:
+1. Локальный компьтер (решение в ветке master):
+Указать Multiple Startup Projects и выбрать проекты SiteMonitoring и SiteMonitoring.Service. 
+2. Docker-compose (решение в ветке docker-branch):
+Выбрать запускаемым проектом docker-compose.dcproj. 
+
+Для проектов: 
+
+1. Для проекта SiteMonitoring
+ Настроить appsettings.json указав значения для:
+  1.1 в случае хостинга и запуска на локалке:
+  "Hosts": {
+    "SiteMonitoring.Service": "https://localhost:44381/"
+  },
+  "ConnectionStrings": {
+    "DbContext": Строка подключения к БД MS SQL, либо LocalDB
+  }.
+1.2 в случае докер контейнера:
+ "Hosts": {
+    "SiteMonitoring.Service": "https://<ip хоста>:44381/" - урл по которому развернут сервис SiteMonitoring.Service
+  },
+  "ConnectionStrings": {
+    "DbContext": Подключениние либо к БД MS SQL, либо к контейнеру db - "Server=db;Database=master;User=sa;Password=Your_password123;"
+  }.
+ 2. Для проекта SiteMonitoring.Service
+ Настроить appsettings.json указав значения для:
+  1.1 в случае хостинга и запуска на локалке:
+  "Hosts": {
+    "SiteMonitoring.Service": "https://localhost:44350/" - урл по которому развернут сервис SiteMonitoring
+  },
+  1.2 в случае докер контейнера:
+ "Hosts": {
+    "SiteMonitoring.Service": "https://<ip хоста>:44350/"
+  }.
