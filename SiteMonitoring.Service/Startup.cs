@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using SiteMonitoring.Service.Authorization;
 using SiteMonitoring.Service.Jobs;
 using SiteMonitoring.Service.Jobs.Interfaces;
 using SiteMonitoring.Service.Services;
@@ -50,7 +51,10 @@ namespace SiteMonitoring.Service
             app.UseMvc();
 
             app.UseHangfireServer();
-            app.UseHangfireDashboard("/jobs");
+            app.UseHangfireDashboard("/jobs", new DashboardOptions
+            {
+                Authorization = new[] { new HangfireAuthorizationFilter() }
+            });
 
             var serviceProvider = app.ApplicationServices;
             BackgroundJob.Schedule(

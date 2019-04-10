@@ -110,21 +110,27 @@ namespace SiteMonitoring.Repositories
 
             if (siteStatusEntry != null)
             {
-                try
-                {
-                    model = await CheckSiteService.AddOrUpdateJob(model);
-                    siteStatusEntry.Entity.JobId = model.JobId;
-                    siteStatusEntry.Entity.LastUpdatedDate = model.LastUpdatedDate;
-                    siteStatusEntry.Entity.IsAvailable = model.IsAvailable;
-                }
-                catch (Exception e)
-                {
-                    this.Logger.LogError("Сервис не доступен.", e);
-                }
+                await this.UpdateStatusFields(model, siteStatusEntry);
             }
 
             await Context.SaveChangesAsync();
             return await GetAsync(id);
+        }
+
+        private async Task UpdateStatusFields(SiteDTO requestModel, EntityEntry<SiteStatus> siteStatusEntry)
+        {
+            //Выполняем проверку на сервисе и обновляем поля
+            try
+            {
+                var response = await CheckSiteService.AddOrUpdateJob(requestModel);
+                siteStatusEntry.Entity.JobId = response.JobId;
+                siteStatusEntry.Entity.LastUpdatedDate = response.LastUpdatedDate;
+                siteStatusEntry.Entity.IsAvailable = response.IsAvailable;
+            }
+            catch (Exception e)
+            {
+                this.Logger.LogError("Сервис не доступен.", e);
+            }
         }
 
         /// <inheritdoc />
