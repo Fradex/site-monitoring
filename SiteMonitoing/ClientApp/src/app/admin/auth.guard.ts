@@ -5,6 +5,9 @@ import {
 } from "@angular/router";
 import { AuthService } from "../model/auth.service";
 
+/**
+ * Гард аутентификации для модуля администратора
+ */
 @Injectable()
 export class AuthGuard {
 

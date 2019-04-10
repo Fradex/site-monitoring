@@ -5,15 +5,32 @@ import { Site } from "../model/site.model";
 import { SiteRepository } from "../model/site.repository";
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 
+/**
+ * Компонент формы редактиррования/добавления сайтов
+ */
 @Component({
   moduleId: module.id,
   templateUrl: "siteEditor.component.html"
 })
 export class SiteEditorComponent {
-  editing: boolean = false;
-  site: Site = new Site();
-  checkedIntervalControl: FormControl;
 
+  /**
+   * Признак редактируемости формы
+   */
+  editing: boolean = false;
+
+  /**
+   * Редактируемый объект
+   */
+  site: Site = new Site();
+
+  /**
+   * .ctor
+   * @param repository репозиторий сайтов
+   * @param router роутер
+   * @param spinnerService сервис для спиннера
+   * @param activeRoute сервис для получения параметров маршрутизации
+   */
   constructor(private repository: SiteRepository,
     private router: Router,
     private spinnerService: Ng4LoadingSpinnerService,
@@ -26,6 +43,10 @@ export class SiteEditorComponent {
     }
   }
 
+  /**
+   * Выполнить сохранение
+   * @param form форма
+   */
   save(form: NgForm) {
     var checkedInterval = form.controls["checkedInterval"];
 
@@ -41,7 +62,6 @@ export class SiteEditorComponent {
       router.navigateByUrl("/admin/main/site");
     }
 
-    this.repository.saveItem(this.site, successCallback,);
-   
+    this.repository.saveItem(this.site, successCallback);
   }
 }

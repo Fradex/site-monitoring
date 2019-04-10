@@ -2,6 +2,9 @@ import {
     Directive, ViewContainerRef, TemplateRef, Input, Attribute, SimpleChanges
 } from "@angular/core";
 
+/**
+ * Директивка для пагинации
+ */
 @Directive({
     selector: "[counterOf]"
 })

@@ -3,6 +3,9 @@ import { NgForm } from "@angular/forms";
 import { Router } from "@angular/router";
 import { AuthService } from "../model/auth.service";
 
+/**
+ * Компонент с формой авториизации
+ */
 @Component({
   moduleId: module.id,
   templateUrl: "auth.component.html"
@@ -15,6 +18,10 @@ export class AuthComponent {
   constructor(private router: Router,
     private auth: AuthService) { }
 
+    /**
+     * Выполнить аутентифкацию
+     * @param form форма с логинкой
+     */
   authenticate(form: NgForm) {
     if (form.valid) {
         this.auth.authenticate(this.username, this.password)

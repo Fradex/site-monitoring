@@ -20,8 +20,7 @@
       <td>{{s.isAvailable ? "Да" : "Нет"}}</td>
       <td>{{s.lastUpdatedDate | date:'dd.MM.yyyy HH:mm'}}</td>
       <td>
-        <button class="btn btn-sm btn-warning"
-                [routerLink]="['/admin/main/site/edit', s.id]">
+        <button class="btn btn-sm btn-warning" [routerLink]="['/admin/main/site/edit', s.id]">
           Редактировать
         </button>
         <button class="btn btn-sm btn-danger" (click)="deleteSite(s.id)">
@@ -45,7 +44,7 @@
   </div>
   <div class="btn-group pull-xs-right">
     <button *counter="let page of pageCount" (click)="changePage(page)" class="btn btn-outline-primary"
-            [class.active]="page == selectedPage">
+      [class.active]="page == selectedPage">
       {{page}}
     </button>
   </div>

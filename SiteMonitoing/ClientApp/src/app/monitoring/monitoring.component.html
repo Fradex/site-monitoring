@@ -14,7 +14,8 @@
       </h4>
       <div class="card-body">
         <div class="card-text p-a-1">
-          <b>{{!site.isAvailable ? 'Сайт недоступен!':'Сайт доступен!'}} Дата последнего обновления {{site.lastUpdatedDate | date:'dd.MM.yyyy HH:mm'}}</b>
+          <b>{{!site.isAvailable ? 'Сайт недоступен!':'Сайт доступен!'}} Дата последнего обновления
+            {{site.lastUpdatedDate | date:'dd.MM.yyyy HH:mm'}}</b>
         </div>
         <div class="card-text p-a-1">
           {{site.description}}
@@ -36,7 +37,7 @@
     </div>
     <div class="btn-group pull-xs-right">
       <button *counter="let page of pageCount" (click)="changePage(page)" class="btn btn-outline-primary"
-              [class.active]="page == selectedPage">
+        [class.active]="page == selectedPage">
         {{page}}
       </button>
     </div>

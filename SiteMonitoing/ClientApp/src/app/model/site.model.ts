@@ -1,3 +1,6 @@
+/**
+ * Модель объекта сайт
+ */
 export class Site {
         constructor(
             public id?: string,

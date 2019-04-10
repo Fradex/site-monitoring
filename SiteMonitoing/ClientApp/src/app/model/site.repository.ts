@@ -2,6 +2,10 @@ import { Injectable } from "@angular/core";
 import { Site } from "./site.model";
 import { RestDataSource } from "./rest.datasource";
 
+/**
+ * репозиторий сайта - хранит объекты в памяти после получения, серврная пагинация не предусмотрена.
+ * можно конечно было набросать и интерфейс, но зачем?
+ */
 @Injectable()
 export class SiteRepository {
   private sites: Site[] = [];
@@ -12,14 +16,25 @@ export class SiteRepository {
     });
   }
 
+  /**
+   * Получить элементы из локальной коллекции
+   */
   getItems(): Site[] {
     return this.sites;
   }
 
+  /**
+   * Получить элемент по ИД из локальной коллекции
+   */
   getItem(id: string): Site {
     return this.sites.find(p => p.id == id);
   }
 
+  /**
+   * Сохранить объект
+   * @param site  элемент 
+   * @param successCallback функция, выполняемая при успехе
+   */
   saveItem(site: Site, successCallback) {
     if (!site.id) {
       this.dataSource.saveSite(site)
@@ -37,6 +52,9 @@ export class SiteRepository {
     }
   }
 
+  /**
+   * Удалить объект
+   */
   deleteItem(id: string) {
     this.dataSource.deleteSite(id).subscribe(res => {
       if (res) {
