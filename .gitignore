@@ -8,3 +8,7 @@
 /.vs/SiteMonitoing
 /SiteMonitoring.Service/bin/Debug/netcoreapp2.1
 /SiteMonitoring.Service/obj
+/SiteMonitoring.IntegrationTest/obj
+/SiteMonitoring.Test/obj
+/SiteMonitoring.IntegrationTest/bin/Debug/netcoreapp2.1
+/SiteMonitoring.Test/bin/Debug

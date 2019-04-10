@@ -61,6 +61,7 @@ namespace SiteMonitoring.Repositories
                     Description = x.Site.Description,
                     CheckedInterval = x.CheckedInterval,
                     IsAvailable = x.IsAvailable,
+                    JobId = x.JobId,
                     LastUpdatedDate = x.LastUpdatedDate
                 }).FirstOrDefaultAsync();
         }
@@ -74,7 +75,7 @@ namespace SiteMonitoring.Repositories
             }
 
             EntityEntry<SiteStatus> siteStatusEntry = null;
-
+            Guid id;
             var site = await Context.Sites.Select(x => x)
                 .FirstOrDefaultAsync(x => x.Id == model.Id);
 
@@ -89,6 +90,7 @@ namespace SiteMonitoring.Repositories
                 siteStatusEntry = Context.Entry(siteStatus);
                 siteStatusEntry.Entity.CheckedInterval = model.CheckedInterval;
                 siteStatusEntry.State = EntityState.Modified;
+                id = site.Id;
             }
             else
             {
@@ -103,7 +105,7 @@ namespace SiteMonitoring.Repositories
                     };
                     siteStatusEntry = await Context.SiteStatuses.AddAsync(siteStatus);
                 }
-                model.Id = siteEntry.Entity.Id;
+                id = siteEntry.Entity.Id;
             }
 
             if (siteStatusEntry != null)
@@ -122,8 +124,7 @@ namespace SiteMonitoring.Repositories
             }
 
             await Context.SaveChangesAsync();
-
-            return model;
+            return await GetAsync(id);
         }
 
         /// <inheritdoc />

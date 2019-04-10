@@ -32,6 +32,11 @@ namespace SiteMonitoring.Service.Jobs
                     throw new ArgumentException($"Не передана объектная модель {nameof(site)}.");
                 }
 
+                if (string.IsNullOrWhiteSpace(site.Url))
+                {
+                    throw new ArgumentException($"Не передан URL.");
+                }
+
                 var request = WebRequest.Create(site.Url);
                 using (var response = (HttpWebResponse)request.GetResponse())
                 {
