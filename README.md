@@ -44,6 +44,9 @@
 2. Docker-compose (решение в ветке docker-branch):
 Выбрать запускаемым проектом docker-compose.dcproj. 
 
+!!!Ахтунг, контейнеры не могут общаться с друг другом по https из-за ошибки  
+The remote certificate is invalid according to the validation procedure. Пока не исправлена (
+
 ### Для проектов: 
 
 #### 1. Для проекта SiteMonitoring
