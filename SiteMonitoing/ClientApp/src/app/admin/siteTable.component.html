@@ -1,47 +1,52 @@
 <table class="table table-sm table-striped">
   <thead>
-  <tr>
-    <th>Наименование</th>
-    <th>URL</th>
-    <th>Описание</th>
-    <th>Временной интервал</th>
-    <th>Доступен ли сайт</th>
-    <th>Дата последнего обновления</th>
-    <th></th>
-    <th></th>
-  </tr>
+    <tr>
+      <th>Наименование</th>
+      <th>URL</th>
+      <th>Описание</th>
+      <th>Временной интервал</th>
+      <th>Доступен ли сайт</th>
+      <th>Дата последнего обновления</th>
+      <th></th>
+      <th></th>
+    </tr>
   </thead>
   <tbody>
-  <tr *ngFor="let s of sites">
-    <td>{{s.name}}</td>
-    <td>{{s.url}}</td>
-    <td>{{s.description}}</td>
-    <td>{{s.checkedInterval}}</td>
-    <td>{{s.isAvailable ? "Да" : "Нет"}}</td>
-    <td>{{s.lastUpdatedDate | date:'dd.MM.yyyy HH:mm'}}</td>
-    <td>
-      <button class="btn btn-sm btn-warning"
-              [routerLink]="['/admin/main/site/edit', s.id]">
-        Редактировать
-      </button>
-      <button class="btn btn-sm btn-danger" (click)="deleteSite(s.id)">
-        Удалить
-      </button>
-    </td>
-  </tr>
+    <tr *ngFor="let s of sites">
+      <td>{{s.name}}</td>
+      <td>{{s.url}}</td>
+      <td>{{s.description}}</td>
+      <td>{{s.checkedInterval}}</td>
+      <td>{{s.isAvailable ? "Да" : "Нет"}}</td>
+      <td>{{s.lastUpdatedDate | date:'dd.MM.yyyy HH:mm'}}</td>
+      <td>
+        <button class="btn btn-sm btn-warning"
+                [routerLink]="['/admin/main/site/edit', s.id]">
+          Редактировать
+        </button>
+        <button class="btn btn-sm btn-danger" (click)="deleteSite(s.id)">
+          Удалить
+        </button>
+      </td>
+    </tr>
   </tbody>
 </table>
-<div class="form-inline pull-xs-left m-r-1">
-  <select class="form-control" [value]="productsPerPage" (change)="changePageSize($event.target.value)">
-    <option value="3">3</option>
-    <option value="5">5</option>
-    <option value="10">10</option>
-    <option value="15">15</option>
-  </select>
+<div *ngIf="!sites || sites.length == 0">
+  Нет данных для отображения
 </div>
-<div class="btn-group pull-xs-right">
-  <button *counter="let page of pageCount" (click)="changePage(page)" class="btn btn-outline-primary"
-          [class.active]="page == selectedPage">
-    {{page}}
-  </button>
+<div *ngIf="sites && sites.length > 0">
+  <div class="form-inline pull-xs-left m-r-1">
+    <select class="form-control" [value]="productsPerPage" (change)="changePageSize($event.target.value)">
+      <option value="3">3</option>
+      <option value="5">5</option>
+      <option value="10">10</option>
+      <option value="15">15</option>
+    </select>
+  </div>
+  <div class="btn-group pull-xs-right">
+    <button *counter="let page of pageCount" (click)="changePage(page)" class="btn btn-outline-primary"
+            [class.active]="page == selectedPage">
+      {{page}}
+    </button>
+  </div>
 </div>

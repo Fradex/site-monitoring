@@ -10,7 +10,7 @@
 <form novalidate #form="ngForm" (ngSubmit)="save(form)">
   <div class="form-group">
     <label>Наименование*</label>
-    <input type="text" class="form-control" id="name" name="name"  #name="ngModel"  [(ngModel)]="site.name" required/>
+    <input type="text" class="form-control" id="name" name="name" #name="ngModel" [(ngModel)]="site.name" required />
     <div *ngIf="name.invalid && (name.dirty || name.touched)"
          class="alert alert-danger">
 
@@ -21,7 +21,7 @@
   </div>
   <div class="form-group">
     <label>URL*</label>
-    <input class="form-control" name="url" #url="ngModel"  [(ngModel)]="site.url" required/>
+    <input class="form-control" name="url" #url="ngModel" [(ngModel)]="site.url" required />
     <div *ngIf="url.invalid && (url.dirty || url.touched)"
          class="alert alert-danger">
 
@@ -32,17 +32,17 @@
   </div>
   <div class="form-group">
     <label>Описание</label>
-    <textarea class="form-control" name="description" 
-                  [(ngModel)]="site.description">
+    <textarea class="form-control" name="description"
+              [(ngModel)]="site.description">
         </textarea>
   </div>
   <div class="form-group">
     <label>Интервал проверки (в минутах)*</label>
-    <input type="number" class="form-control" min="5" name="checkedInterval" [(ngModel)]="site.checkedInterval" #checkedInterval="ngModel" required/>
+    <input type="number" class="form-control" min="5" name="checkedInterval" [(ngModel)]="site.checkedInterval" #checkedInterval="ngModel" required />
 
     <div *ngIf="!checkedInterval.invalid && checkedInterval.value <= 0"
          class="alert alert-danger">
-        Поле Интервал должно быть положительным числом.
+      Поле Интервал должно быть положительным числом.
     </div>
 
     <div *ngIf="checkedInterval.invalid && (checkedInterval.dirty || checkedInterval.touched)"
@@ -53,7 +53,7 @@
       </div>
     </div>
   </div>
-  
+
   <button type="submit" class="btn btn-primary" [class.btn-warning]="editing" [disabled]="!form.form.valid || checkedInterval.value <= 0">
     {{editing ? "Сохранить" : "Создать"}}
   </button>
@@ -61,3 +61,4 @@
     Отменить
   </button>
 </form>
+<ng4-loading-spinner [timeout]="120000" [loadingText]="'Подождите...'"> </ng4-loading-spinner>

@@ -3,6 +3,7 @@ import { Router, ActivatedRoute } from "@angular/router";
 import { NgForm, FormControl, Validators } from "@angular/forms";
 import { Site } from "../model/site.model";
 import { SiteRepository } from "../model/site.repository";
+import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 
 @Component({
   moduleId: module.id,
@@ -15,6 +16,7 @@ export class SiteEditorComponent {
 
   constructor(private repository: SiteRepository,
     private router: Router,
+    private spinnerService: Ng4LoadingSpinnerService,
     activeRoute: ActivatedRoute) {
 
     this.editing = activeRoute.snapshot.params["mode"] == "edit";
@@ -31,8 +33,15 @@ export class SiteEditorComponent {
 
       return;
     }
+    let spinnerService = this.spinnerService;
+    let router = this.router;
+    spinnerService.show();
+    let successCallback = () => {
+      spinnerService.hide();
+      router.navigateByUrl("/admin/main/site");
+    }
 
-    this.repository.saveItem(this.site);
-    this.router.navigateByUrl("/admin/main/site");
+    this.repository.saveItem(this.site, successCallback,);
+   
   }
 }

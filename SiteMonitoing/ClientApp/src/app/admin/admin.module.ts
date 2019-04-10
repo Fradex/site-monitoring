@@ -8,6 +8,7 @@ import { SiteTableComponent } from "./siteTable.component";
 import { ModelModule } from "../model/model.module";
 import { SiteEditorComponent } from "./siteEditor.component";
 import { AuthGuard } from "./auth.guard";
+import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
 
 let routing = RouterModule.forChild([
   { path: "auth", component: AuthComponent },
@@ -24,7 +25,7 @@ let routing = RouterModule.forChild([
 ]);
 
 @NgModule({
-  imports: [ModelModule, CommonModule, FormsModule, ReactiveFormsModule, routing],
+  imports: [ModelModule, Ng4LoadingSpinnerModule.forRoot(), CommonModule, FormsModule, ReactiveFormsModule, routing],
   providers: [AuthGuard],
   declarations: [AuthComponent, AdminComponent, SiteTableComponent, SiteEditorComponent]
 })

@@ -20,15 +20,19 @@ export class SiteRepository {
     return this.sites.find(p => p.id == id);
   }
 
-  saveItem(site: Site) {
+  saveItem(site: Site, successCallback) {
     if (!site.id) {
       this.dataSource.saveSite(site)
-        .subscribe(p => this.sites.push(p));
+        .subscribe(p => {
+          this.sites.push(p);
+          if (successCallback) successCallback();
+        });
     } else {
       this.dataSource.updateSite(site)
         .subscribe(obj => {
           this.sites.splice(this.sites.
             findIndex(p => p.id == site.id), 1, obj);
+          if (successCallback) successCallback();
         });
     }
   }
