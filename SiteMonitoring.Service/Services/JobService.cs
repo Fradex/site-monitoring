@@ -36,11 +36,6 @@ namespace SiteMonitoring.Service.Services
 
                 foreach (var site in sites)
                 {
-                    if (string.IsNullOrEmpty(site.JobId))
-                    {
-                        site.JobId = $"CheckSiteJob-{Guid.NewGuid()}";
-                    }
-
                     this.AddOrUpdateJobInternal(site);
                 }
             }

@@ -32,7 +32,10 @@ export class RestDataSource {
       this.auth_token = r.success ? r.token : null;
       return r.success;
     },
-      err => { return false; });
+      err => {
+        console.log(err);
+        return false;
+      });
     // return Observable.of(true);
   }
 
