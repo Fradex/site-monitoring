@@ -25,7 +25,7 @@ export class SiteTableComponent {
   }
 
   /**
-   * Выполнить удаленик
+   * Выполнить удаление
    */
   deleteSite(id: string) {
     this.repository.deleteItem(id);
