@@ -15,7 +15,7 @@ namespace SiteMonitoring.Authentication
         public string AuthenticationType => "Form";
 
         /// <inheritdoc />
-        public bool IsAuthenticated => true;
+        public bool IsAuthenticated => UserId!= Guid.Empty;
 
         /// <summary>
         /// Идентификатор пользователя.
