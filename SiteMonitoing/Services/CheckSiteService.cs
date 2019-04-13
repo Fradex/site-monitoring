@@ -44,8 +44,10 @@ namespace SiteMonitoring.Services
                     var response = await httpClient.PostAsync(
                             $"{serviceApiUrl}/api/CheckSite/AddOrUpdateJob", requestContent);
 
-                    var responseText = await response.Content.ReadAsStringAsync();
+                    response.EnsureSuccessStatusCode();
 
+                    var responseText = await response.Content.ReadAsStringAsync();
+    
                     switch (response?.StatusCode)
                     {
                         case HttpStatusCode.OK:
@@ -54,7 +56,7 @@ namespace SiteMonitoring.Services
                             }
                         default:
                         {
-                            throw new Exception($"StatusCode:{response.StatusCode}. ErrorText:{responseText}");
+                            throw new HttpRequestException($"StatusCode:{response.StatusCode}. ErrorText:{responseText}");
                         }
                     }
                 }
@@ -81,6 +83,8 @@ namespace SiteMonitoring.Services
                 {
                     var response = await httpClient.DeleteAsync(
                         $"{serviceApiUrl}/api/CheckSite/{jobId}");
+                    response.EnsureSuccessStatusCode();
+
                     var responseText = await response.Content.ReadAsStringAsync();
 
                     switch (response?.StatusCode)

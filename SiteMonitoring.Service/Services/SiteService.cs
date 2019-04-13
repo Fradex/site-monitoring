@@ -38,8 +38,12 @@ namespace SiteMonitoring.Service.Services
                         await httpClient.GetAsync(
                                 $"{webApiUrl}/api/Site")
                             .ConfigureAwait(false);
+
+                    response.EnsureSuccessStatusCode();
+
                     var responseText = await response.Content.ReadAsStringAsync()
                         .ConfigureAwait(false);
+
                     switch (response?.StatusCode)
                     {
                         case HttpStatusCode.OK:
@@ -48,7 +52,7 @@ namespace SiteMonitoring.Service.Services
                         }
                         default:
                         {
-                            throw new Exception($"StatusCode:{response.StatusCode}. ErrorText:{responseText}");
+                            throw new HttpRequestException($"StatusCode:{response.StatusCode}. ErrorText:{responseText}");
                         }
                     }
                 }
@@ -74,6 +78,9 @@ namespace SiteMonitoring.Service.Services
                     var response = await httpClient.PostAsync(
                             $"{webApiUrl}/api/Site/UpdateStatus", requestContent)
                         .ConfigureAwait(false);
+
+                    response.EnsureSuccessStatusCode();
+
                     var responseText = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 
                     switch (response?.StatusCode)
@@ -84,7 +91,7 @@ namespace SiteMonitoring.Service.Services
                         }
                         default:
                         {
-                            throw new Exception($"StatusCode:{response.StatusCode}. ErrorText:{responseText}");
+                            throw new HttpRequestException($"StatusCode:{response.StatusCode}. ErrorText:{responseText}");
                         }
                     }
                 }
