@@ -75,9 +75,9 @@ The remote certificate is invalid according to the validation procedure. Пок�
  
  ##### 2.1. В случае хостинга и запуска на локалке:
   "Hosts": {
-    "SiteMonitoring.Service": "https://localhost:44350/" - урл по которому развернут сервис SiteMonitoring
+    "SiteMonitoring.Web": "https://localhost:44350/" - урл по которому развернут сервис SiteMonitoring
   },
  ##### 2.2. В случае докер контейнера:
  "Hosts": {
-    "SiteMonitoring.Service": "https://<ip хоста>:44350/"
+    "SiteMonitoring.Web": "https://<ip хоста>:44350/"
   }.
